@@ -1,5 +1,6 @@
+# Keil MDK/μVision 项目文件
+# 忽略用户特定的配置文件和临时文件
+*.uvguix.*
 *.scvd
-*.zjy
-*.uvoptx
-*.Lenovo
-.vsconde/
+*.uvprojx.user
+.vscode/
