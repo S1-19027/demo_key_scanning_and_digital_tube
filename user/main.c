@@ -53,7 +53,7 @@ int main(void)
 	//Display_Number(0); 
   while (1)
   {
-    key_value = KEY_read();
+    key_value = KEY_GetOneShot();
 
       // 有按键按下且与上次不同，
       // 按键值1-16对应显示0-F

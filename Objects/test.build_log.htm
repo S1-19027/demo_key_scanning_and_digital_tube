@@ -26,59 +26,31 @@ Project File Date:  11/26/2025
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 3 (build 300)', folder: 'D:\MDK\ARM\ARMCC\Bin'
-Rebuild target 'Target 1'
-assembling startup_stm32f10x_md.s...
-compiling core_cm3.c...
-compiling system_stm32f10x.c...
-compiling misc.c...
-compiling stm32f10x_gpio.c...
-compiling stm32f10x_rcc.c...
-compiling main.c...
-user\LED.h(9): warning:  #1295-D: Deprecated declaration Refresh_Display - give arg types
-  void Refresh_Display();
-user\LED.h(10): warning:  #1-D: last line of file ends without a newline
-  #endif
-user\KEY.h(11): warning:  #1-D: last line of file ends without a newline
-  #endif
-user\main.c(67): warning:  #223-D: function "delay_ms" declared implicitly
-      delay_ms(10);
-user\main.c(70): warning:  #111-D: statement is unreachable
-    return 1;
-user\main.c: 5 warnings, 0 errors
-compiling stm32f10x_tim.c...
-compiling GPIO.c...
-compiling stm32f10x_it.c...
-compiling LED.c...
-user\LED.h(9): warning:  #1295-D: Deprecated declaration Refresh_Display - give arg types
-  void Refresh_Display();
-user\LED.h(10): warning:  #1-D: last line of file ends without a newline
-  #endif
-user\SysTick.h(5): warning:  #1-D: last line of file ends without a newline
-  #endif
-user\LED.c(91): warning:  #223-D: function "delay_ms" declared implicitly
-          delay_ms(5); // Êâ?Êè?Âª?Êó?Ôº?‰ø?Êå?Êò?Á§?Á®?ÂÆ?
-user\LED.c(106): warning:  #1-D: last line of file ends without a newline
-  }
-user\LED.c: 5 warnings, 0 errors
+Build target 'Target 1'
 compiling KEY.c...
-user\KEY.c(136): warning:  #223-D: function "delay_ms" declared implicitly
+user\KEY.c(49): warning:  #177-D: variable "LastCode" was declared but never referenced
+  {   static int LastCode = -1;     // ‰∏?‰∏ÄÊ¨?Èî?Á†?
+user\KEY.c(50): warning:  #177-D: variable "key_age" was declared but never referenced
+      static int key_age = 0;       // ÂΩ?Ââ?Èî?Á†?Ê£ÄÊµ?Âà?Ê¨?Êï?
+user\KEY.c(51): warning:  #177-D: variable "CurrentCode" was declared but never referenced
+      int CurrentCode = -1;
+user\KEY.c(390): warning:  #223-D: function "delay_ms" declared implicitly
           delay_ms(100); // √à¬•¬∂¬∂¬∂¬Ø
-user\KEY.c(182): warning:  #223-D: function "delay_ms" declared implicitly
+user\KEY.c(426): warning:  #223-D: function "delay_ms" declared implicitly
               delay_ms(2000);
-user\KEY.c(185): warning:  #1-D: last line of file ends without a newline
+user\KEY.c(429): warning:  #1-D: last line of file ends without a newline
   }
-user\KEY.c: 3 warnings, 0 errors
-compiling sys.c...
+user\KEY.c: 6 warnings, 0 errors
 linking...
-Program Size: Code=1394 RO-data=286 RW-data=44 ZI-data=516  
-".\Objects\test.axf" - 0 Error(s), 13 Warning(s).
+Program Size: Code=1590 RO-data=286 RW-data=52 ZI-data=516  
+".\Objects\test.axf" - 0 Error(s), 6 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   F:\Demo-Module2\RTE
   D:\MDK\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
