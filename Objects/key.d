@@ -1,0 +1,13 @@
+.\objects\key.o: user\KEY.c
+.\objects\key.o: .\Stm32lib\CMSIS\Core\CM3\stm32f10x.h
+.\objects\key.o: .\Stm32lib\CMSIS\Core\CM3\core_cm3.h
+.\objects\key.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\key.o: .\Stm32lib\CMSIS\Core\CM3\system_stm32f10x.h
+.\objects\key.o: .\user\stm32f10x_conf.h
+.\objects\key.o: .\Stm32lib\STM32F10x_StdPeriph_Driver\inc\stm32f10x_gpio.h
+.\objects\key.o: .\Stm32lib\CMSIS\Core\CM3\stm32f10x.h
+.\objects\key.o: .\Stm32lib\STM32F10x_StdPeriph_Driver\inc\stm32f10x_rcc.h
+.\objects\key.o: .\Stm32lib\STM32F10x_StdPeriph_Driver\inc\stm32f10x_tim.h
+.\objects\key.o: .\Stm32lib\STM32F10x_StdPeriph_Driver\inc\misc.h
+.\objects\key.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\key.o: user\Register_config.h

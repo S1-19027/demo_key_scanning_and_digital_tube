@@ -1,0 +1,84 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¶ÃVision V5.21.1.0
+Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: 123 chen, abc, LIC=7YKYW-QE0BQ-RFDIZ-JQY6D-D2AWM-8BL90
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Professional  Version: 5.21a
+Toolchain Path:  D:\MDK\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 3 (build 300)
+Assembler:       Armasm.exe V5.06 update 3 (build 300)
+Linker/Locator:  ArmLink.exe V5.06 update 3 (build 300)
+Library Manager: ArmAr.exe V5.06 update 3 (build 300)
+Hex Converter:   FromElf.exe V5.06 update 3 (build 300)
+CPU DLL:         SARMCM3.DLL V5.21a
+Dialog DLL:      DCM.DLL V1.13.8.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V2.0.18.0
+Dialog DLL:      TCM.DLL V1.14.14.0
+ 
+<h2>Project:</h2>
+F:\Demo-Module2\test.uvprojx
+Project File Date:  11/26/2025
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 3 (build 300)', folder: 'D:\MDK\ARM\ARMCC\Bin'
+Rebuild target 'Target 1'
+assembling startup_stm32f10x_md.s...
+compiling core_cm3.c...
+compiling misc.c...
+compiling stm32f10x_gpio.c...
+compiling system_stm32f10x.c...
+compiling stm32f10x_rcc.c...
+compiling stm32f10x_tim.c...
+compiling main.c...
+user\LED.h(9): warning:  #1295-D: Deprecated declaration Refresh_Display - give arg types
+  void Refresh_Display();
+user\LED.h(10): warning:  #1-D: last line of file ends without a newline
+  #endif
+user\KEY.h(11): warning:  #1-D: last line of file ends without a newline
+  #endif
+user\main.c(67): warning:  #223-D: function "delay_ms" declared implicitly
+      delay_ms(10);
+user\main.c(70): warning:  #111-D: statement is unreachable
+    return 1;
+user\main.c: 5 warnings, 0 errors
+compiling stm32f10x_it.c...
+compiling GPIO.c...
+compiling LED.c...
+user\LED.h(9): warning:  #1295-D: Deprecated declaration Refresh_Display - give arg types
+  void Refresh_Display();
+user\LED.h(10): warning:  #1-D: last line of file ends without a newline
+  #endif
+user\SysTick.h(5): warning:  #1-D: last line of file ends without a newline
+  #endif
+user\LED.c(91): warning:  #223-D: function "delay_ms" declared implicitly
+          delay_ms(5); // Êâ?Êè?Âª?Êó?Ôº?‰ø?Êå?Êò?Á§?Á®?ÂÆ?
+user\LED.c(106): warning:  #1-D: last line of file ends without a newline
+  }
+user\LED.c: 5 warnings, 0 errors
+compiling KEY.c...
+user\KEY.c(362): warning:  #223-D: function "delay_ms" declared implicitly
+          delay_ms(100); // √à¬•¬∂¬∂¬∂¬Ø
+user\KEY.c(408): warning:  #223-D: function "delay_ms" declared implicitly
+              delay_ms(2000);
+user\KEY.c(411): warning:  #1-D: last line of file ends without a newline
+  }
+user\KEY.c: 3 warnings, 0 errors
+compiling sys.c...
+linking...
+Program Size: Code=1530 RO-data=286 RW-data=36 ZI-data=516  
+".\Objects\test.axf" - 0 Error(s), 13 Warning(s).
+
+<h2>Collection of Component include folders:</h2>
+  F:\Demo-Module2\RTE
+  D:\MDK\ARM\PACK\Keil\STM32F1xx_DFP\2.1.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:01
+</pre>
+</body>
+</html>

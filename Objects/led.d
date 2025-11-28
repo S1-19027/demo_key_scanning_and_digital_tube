@@ -1,0 +1,13 @@
+.\objects\led.o: user\LED.c
+.\objects\led.o: user\LED.h
+.\objects\led.o: .\Stm32lib\CMSIS\Core\CM3\stm32f10x.h
+.\objects\led.o: .\Stm32lib\CMSIS\Core\CM3\core_cm3.h
+.\objects\led.o: D:\MDK\ARM\ARMCC\Bin\..\include\stdint.h
+.\objects\led.o: .\Stm32lib\CMSIS\Core\CM3\system_stm32f10x.h
+.\objects\led.o: .\user\stm32f10x_conf.h
+.\objects\led.o: .\Stm32lib\STM32F10x_StdPeriph_Driver\inc\stm32f10x_gpio.h
+.\objects\led.o: .\Stm32lib\CMSIS\Core\CM3\stm32f10x.h
+.\objects\led.o: .\Stm32lib\STM32F10x_StdPeriph_Driver\inc\stm32f10x_rcc.h
+.\objects\led.o: .\Stm32lib\STM32F10x_StdPeriph_Driver\inc\stm32f10x_tim.h
+.\objects\led.o: .\Stm32lib\STM32F10x_StdPeriph_Driver\inc\misc.h
+.\objects\led.o: user\SysTick.h
