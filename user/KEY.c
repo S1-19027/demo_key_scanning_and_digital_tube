@@ -44,316 +44,90 @@ void KEY_Configuration(void)
     RCC_APB2ENR |= 1 << 6;  // Ê¹ÄÜPORTEÊ±ÖÓ
     GPIOE_CRL = 0X33338888; // PE.0 1 2 3  ÉÏÀ­ÊäÈë  4 5 6 7 ÍÆÍìÊä³ö
 }
-
-int KEY_read(void)//当前是否按下
-{  
+int KEY_read(void)
+{
+    static int LastCode = -1;     // 上一次键码
+    static int key_age = 0;       // 当前键码检测到次数
+    int CurrentCode = -1;
     int key_value = -1;
-
-    u8 key_1 = 1;
-    u8 key_2 = 1;
-    u8 key_3 = 1;
-    u8 key_4 = 1;
-
-    // GPIO_ResetBits(ROW_PORT,ROW_1);
-    // GPIO_SetBits(ROW_PORT,ROW_2 |ROW_3|ROW_4);
-    // key_1 = GPIO_ReadInputDataBit(COL_PORT,COL_1);
-    // key_2 = GPIO_ReadInputDataBit(COL_PORT,COL_2);
-    // key_3 = GPIO_ReadInputDataBit(COL_PORT,COL_3);
-    // key_4 = GPIO_ReadInputDataBit(COL_PORT,COL_4);
-
-    // GPIOE->BRR = GPIO_Pin_4;
-    // GPIOE->BSRR = GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_7;
-    GPIOE_BRR |= 1 << 4;                            // ÉèÖÃPE4Êä³öµÍµçÆ½
-    GPIOE_BSRR |= ((1 << 7) | (1 << 6) | (1 << 5)); // ÉèÖÃPE5,6,7Êä³ö¸ßµçÆ½
-    if ((GPIOE_IDR & 0x1) != (uint32_t)Bit_RESET)   // ÅÐ¶ÏPE0Òý½ÅµçÆ½£¬°´ÏÂÎªµÍ
-    {
-        key_1 = (uint8_t)Bit_SET;
+    
+    // 扫描第一行 (PE4=0, PE5,6,7=1)
+    GPIOE_BRR |= 1 << 4;
+    GPIOE_BSRR |= ((1 << 7) | (1 << 6) | (1 << 5));
+    
+    u8 col_state = GPIOE_IDR & 0xF;
+    if (col_state != 0xF) {
+        if ((col_state & 0x1) == 0) CurrentCode = 0;
+        else if ((col_state & 0x2) == 0) CurrentCode = 1;
+        else if ((col_state & 0x4) == 0) CurrentCode = 2;
+        else if ((col_state & 0x8) == 0) CurrentCode = 3;
     }
-    else
-    {
-        key_1 = (uint8_t)Bit_RESET;
-    }
-    if ((GPIOE_IDR & 0x2) != (uint32_t)Bit_RESET) // ÅÐ¶ÏPE1Òý½ÅµçÆ½£¬°´ÏÂÎªµÍ
-    {
-        key_2 = (uint8_t)Bit_SET;
-    }
-    else
-    {
-        key_2 = (uint8_t)Bit_RESET;
-    }
-    if ((GPIOE_IDR & 0x4) != (uint32_t)Bit_RESET) // ÅÐ¶ÏPE2Òý½ÅµçÆ½£¬°´ÏÂÎªµÍ
-    {
-        key_3 = (uint8_t)Bit_SET;
-    }
-    else
-    {
-        key_3 = (uint8_t)Bit_RESET;
-    }
-    if ((GPIOE_IDR & 0x8) != (uint32_t)Bit_RESET) // ÅÐ¶ÏPE3Òý½ÅµçÆ½£¬°´ÏÂÎªµÍ
-    {
-        key_4 = (uint8_t)Bit_SET;
-    }
-    else
-    {
-        key_4 = (uint8_t)Bit_RESET;
-    }
-
-    if (key_1 == 0)
-    {
-        key_value = 0;
-    }
-    else
-    {
-    }
-    if (key_2 == 0)
-    {
-        key_value = 1;
-    }
-    else
-    {
-    }
-    if (key_3 == 0)
-    {
-        key_value = 2;
-    }
-    else
-    {
-    }
-    if (key_4 == 0)
-    {
-        key_value = 3;
-    }
-    else
-    {
-    }
-
-    //	GPIO_ResetBits(ROW_PORT,ROW_2);
-    //	GPIO_SetBits(ROW_PORT,ROW_1 |ROW_3|ROW_4);
-    //	key_1 = GPIO_ReadInputDataBit(COL_PORT,COL_1);
-    //	key_2 = GPIO_ReadInputDataBit(COL_PORT,COL_2);
-    //	key_3 = GPIO_ReadInputDataBit(COL_PORT,COL_3);
-    //	key_4 = GPIO_ReadInputDataBit(COL_PORT,COL_4);
-
-    // GPIOE->BRR = GPIO_Pin_5;
-    // GPIOE->BSRR = GPIO_Pin_4 | GPIO_Pin_6 | GPIO_Pin_7;
-
+    
+    // 扫描第二行 (PE5=0, PE4,6,7=1)
     GPIOE_BRR |= 1 << 5;
     GPIOE_BSRR |= ((1 << 7) | (1 << 6) | (1 << 4));
-    if ((GPIOE_IDR & 0x1) != (uint32_t)Bit_RESET)
-    {
-        key_1 = (uint8_t)Bit_SET;
+    
+    col_state = GPIOE_IDR & 0xF;
+    if (col_state != 0xF) {
+        if ((col_state & 0x1) == 0) CurrentCode = 4;
+        else if ((col_state & 0x2) == 0) CurrentCode = 5;
+        else if ((col_state & 0x4) == 0) CurrentCode = 6;
+        else if ((col_state & 0x8) == 0) CurrentCode = 7;
     }
-    else
-    {
-        key_1 = (uint8_t)Bit_RESET;
-    }
-    if ((GPIOE_IDR & 0x2) != (uint32_t)Bit_RESET)
-    {
-        key_2 = (uint8_t)Bit_SET;
-    }
-    else
-    {
-        key_2 = (uint8_t)Bit_RESET;
-    }
-    if ((GPIOE_IDR & 0x4) != (uint32_t)Bit_RESET)
-    {
-        key_3 = (uint8_t)Bit_SET;
-    }
-    else
-    {
-        key_3 = (uint8_t)Bit_RESET;
-    }
-    if ((GPIOE_IDR & 0x8) != (uint32_t)Bit_RESET)
-    {
-        key_4 = (uint8_t)Bit_SET;
-    }
-    else
-    {
-        key_4 = (uint8_t)Bit_RESET;
-    }
-
-    if (key_1 == 0)
-    {
-        key_value = 4;
-    }
-    else
-    {
-    }
-    if (key_2 == 0)
-    {
-        key_value = 5;
-    }
-    else
-    {
-    }
-    if (key_3 == 0)
-    {
-        key_value = 6;
-    }
-    else
-    {
-    }
-    if (key_4 == 0)
-    {
-        key_value = 7;
-    }
-    else
-    {
-    }
-
-    //	GPIO_ResetBits(ROW_PORT,ROW_3);
-    //	GPIO_SetBits(ROW_PORT,ROW_1 |ROW_2|ROW_4);
-    //	key_1 = GPIO_ReadInputDataBit(COL_PORT,COL_1);
-    //	key_2 = GPIO_ReadInputDataBit(COL_PORT,COL_2);
-    //	key_3 = GPIO_ReadInputDataBit(COL_PORT,COL_3);
-    //	key_4 = GPIO_ReadInputDataBit(COL_PORT,COL_4);
-
-    //	GPIOE->BRR = GPIO_Pin_6;
-    //	GPIOE->BSRR = GPIO_Pin_5 | GPIO_Pin_4 | GPIO_Pin_7;
-
+    
+    // 扫描第三行 (PE6=0, PE4,5,7=1)
     GPIOE_BRR |= 1 << 6;
     GPIOE_BSRR |= ((1 << 7) | (1 << 5) | (1 << 4));
-
-    if ((GPIOE_IDR & 0x1) != (uint32_t)Bit_RESET)
-    {
-        key_1 = (uint8_t)Bit_SET;
+    
+    col_state = GPIOE_IDR & 0xF;
+    if (col_state != 0xF) {
+        if ((col_state & 0x1) == 0) CurrentCode = 8;
+        else if ((col_state & 0x2) == 0) CurrentCode = 9;
+        else if ((col_state & 0x4) == 0) CurrentCode = 10;
+        else if ((col_state & 0x8) == 0) CurrentCode = 11;
     }
-    else
-    {
-        key_1 = (uint8_t)Bit_RESET;
-    }
-    if ((GPIOE_IDR & 0x2) != (uint32_t)Bit_RESET)
-    {
-        key_2 = (uint8_t)Bit_SET;
-    }
-    else
-    {
-        key_2 = (uint8_t)Bit_RESET;
-    }
-    if ((GPIOE_IDR & 0x4) != (uint32_t)Bit_RESET)
-    {
-        key_3 = (uint8_t)Bit_SET;
-    }
-    else
-    {
-        key_3 = (uint8_t)Bit_RESET;
-    }
-    if ((GPIOE_IDR & 0x8) != (uint32_t)Bit_RESET)
-    {
-        key_4 = (uint8_t)Bit_SET;
-    }
-    else
-    {
-        key_4 = (uint8_t)Bit_RESET;
-    }
-
-    if (key_1 == 0)
-    {
-        key_value = 8;
-    }
-    else
-    {
-    }
-    if (key_2 == 0)
-    {
-        key_value = 9;
-    }
-    else
-    {
-    }
-    if (key_3 == 0)
-    {
-        key_value = 10;
-    }
-    else
-    {
-    }
-    if (key_4 == 0)
-    {
-        key_value = 11;
-    }
-    else
-    {
-    }
-
-    //	GPIO_ResetBits(ROW_PORT,ROW_4);
-    //	GPIO_SetBits(ROW_PORT,ROW_1 |ROW_2|ROW_3);
-    //	key_1 = GPIO_ReadInputDataBit(COL_PORT,COL_1);
-    //	key_2 = GPIO_ReadInputDataBit(COL_PORT,COL_2);
-    //	key_3 = GPIO_ReadInputDataBit(COL_PORT,COL_3);
-    //	key_4 = GPIO_ReadInputDataBit(COL_PORT,COL_4);
-
-    //	GPIOE->BRR = GPIO_Pin_7;
-    //	GPIOE->BSRR = GPIO_Pin_5 | GPIO_Pin_6 | GPIO_Pin_4;
-
+    
+    // 扫描第四行 (PE7=0, PE4,5,6=1)
     GPIOE_BRR |= 1 << 7;
     GPIOE_BSRR |= ((1 << 5) | (1 << 6) | (1 << 4));
-
-    if ((GPIOE_IDR & 0x1) != (uint32_t)Bit_RESET)
-    {
-        key_1 = (uint8_t)Bit_SET;
+    
+    col_state = GPIOE_IDR & 0xF;
+    if (col_state != 0xF) {
+        if ((col_state & 0x1) == 0) CurrentCode = 12;
+        else if ((col_state & 0x2) == 0) CurrentCode = 13;
+        else if ((col_state & 0x4) == 0) CurrentCode = 14;
+        else if ((col_state & 0x8) == 0) CurrentCode = 15;
     }
-    else
-    {
-        key_1 = (uint8_t)Bit_RESET;
+    
+    // 按键滤波算法
+    if (CurrentCode == LastCode) {
+        // 按键持续按下，age++
+        key_age++;
+        
+        // 连续10次(100ms)检测到相同键码，认为按键稳定按下
+        if (key_age == 10) {
+            key_value = CurrentCode;  // 返回有效的按键值
+        }
+        else if (key_age > 10) {
+            // 按键持续按下，但不重复返回值
+            key_value = -1;
+        }
     }
-    if ((GPIOE_IDR & 0x2) != (uint32_t)Bit_RESET)
-    {
-        key_2 = (uint8_t)Bit_SET;
+    else {
+        // 键码变化，重置计数
+        key_age = 0;
+        LastCode = CurrentCode;
+        key_value = -1;
     }
-    else
-    {
-        key_2 = (uint8_t)Bit_RESET;
+    
+    // 特别处理：当按键释放时，也要重置状态
+    if (CurrentCode == -1) {
+        key_age = 0;
+        LastCode = -1;
     }
-    if ((GPIOE_IDR & 0x4) != (uint32_t)Bit_RESET)
-    {
-        key_3 = (uint8_t)Bit_SET;
-    }
-    else
-    {
-        key_3 = (uint8_t)Bit_RESET;
-    }
-    if ((GPIOE_IDR & 0x8) != (uint32_t)Bit_RESET)
-    {
-        key_4 = (uint8_t)Bit_SET;
-    }
-    else
-    {
-        key_4 = (uint8_t)Bit_RESET;
-    }
-
-    if (key_1 == 0)
-    {
-        key_value = 12;
-    }
-    else
-    {
-    }
-    if (key_2 == 0)
-    {
-        key_value = 13;
-    }
-    else
-    {
-    }
-    if (key_3 == 0)
-    {
-        key_value = 14;
-    }
-    else
-    {
-    }
-    if (key_4 == 0)
-    {
-        key_value = 15;
-    }
-    else
-    {
-    }
-		   
+    
     return key_value;
 }
-
 u8 KEY_Scan()//单个按键扫描
 {
     u8 key_1 = GPIO_ReadInputDataBit(GPIOB, GPIO_Pin_6);

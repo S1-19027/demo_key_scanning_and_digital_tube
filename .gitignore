@@ -4,3 +4,10 @@
 *.scvd
 *.uvprojx.user
 .vscode/
+DebugConfig/
+Listings/
+Objects/
+startup/
+stddriver/
+Stm32LIB/
+user/
